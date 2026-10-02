@@ -69,6 +69,9 @@ public class InjectionPointLazyFxControllerAndViewResolver {
         }
         try {
             Class<C> controllerClass = (Class<C>) resolvableType.getGenerics()[0].resolve();
+            if (controllerClass == null) {
+                throw new IllegalArgumentException("Generic controller type could not be resolved");
+            }
             return new LazyFxControllerAndView<>(() -> fxWeaver.load(controllerClass));
         } catch (Exception e) {
             throw new IllegalArgumentException(
